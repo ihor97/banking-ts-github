@@ -1,27 +1,15 @@
-class Car {
-    public number: string
-    public name: string
-    // приватне статичне поле можна використовувати тоді коли ми в рамках класах хочемо інкапсулювати логіку створених ним обєктів
-    private static _array: Car[]
-    constructor(a: string, b: string = 'стандарт') {
-        this.name = a
-        this.number = b
-    }
-    public getInfo(): string {
-        return `машина ${this.name}, с госномером ${this.number} `
-    }
-    public static create(a: string, b: string = 'стандарт'): Car {
-        let c = new Car(a, b)
-        this._array.push(c)
-        return c
-    }
-   
-    public static compare(car1: Car, car2: Car): boolean {
-        return car1.name === car2.name && car1.number === car2.number
-
+class Car{
+      // readonly можна юзати тільки всередині класу 
+        // приватне статичне поле можна використовувати тоді коли ми в рамках класах хочемо інкапсулювати логіку створених ним обєктів
+        // readonly поле можна реалізувати тільки в конструкторі
+    public readonly array:string[]
+    constructor(a:string[]){
+        this.array=a
+        // Object.freeze(a) варіант для того як зробити так щоб readonly не змінювалося
+        // Object.freeze() -морозить тільки на першому рівні
     }
 }
-let car1 = new Car('cddc', 'первая')
-let car2 = new Car('cddвввc', 'вторая')
 
-console.log(Car.compare(car1, car2));
+const car1=new Car(['d','dd','cwcw'])
+car1.array.push('scc')
+console.log(car1.array);

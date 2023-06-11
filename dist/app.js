@@ -1,17 +1,11 @@
 class Car {
-    constructor(a, b = 'стандарт') {
-        this.name = a;
-        this.number = b;
-    }
-    getInfo() {
-        return `машина ${this.name}, с госномером ${this.number} `;
-    }
-    static compare(car1, car2) {
-        Car._i++;
-        return car1.name === car2.name && car1.number === car2.number;
+    constructor(a) {
+        this.array = a;
+        // Object.freeze(a) варіант для того як зробити так щоб readonly не змінювалося
+        // Object.freeze() -морозить тільки на першому рівні
     }
 }
-let car1 = new Car('cddc', 'первая');
-let car2 = new Car('cddвввc', 'вторая');
-console.log(Car.compare(car1, car2));
+const car1 = new Car(['d', 'dd', 'cwcw']);
+car1.array.push('scc');
+console.log(car1.array);
 //# sourceMappingURL=app.js.map
