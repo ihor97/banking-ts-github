@@ -1,14 +1,16 @@
 class Car {
-    // захищаємо масив через гетер
-    get arr() {
-        return this.array.map(g => g);
+    set name(g) {
+        // можна робити форматування this._name = g+'eee'
+        this._name = g;
+    }
+    get name() {
+        // заьираємо добавлені значення this._name.replace('aaa','')
+        return this._name;
     }
     constructor(a) {
-        this.array = a;
+        this._name = a;
     }
 }
-const car1 = new Car(['d', 'dd', 'cwcw']);
-car1.arr.push('scc');
-car1.arr.push('scc');
-console.log(car1.arr);
+const a = new Car('1');
+console.log(a.name);
 //# sourceMappingURL=app.js.map

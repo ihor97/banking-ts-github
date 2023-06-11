@@ -1,19 +1,23 @@
-class Car{
+class Car {
+    // тут в чистому вигляді інкапсуляція поля _name
+    private _name: string
 
+    public set name(g: string) {
+        // можна робити форматування this._name = g+'eee'
+        this._name = g
+    }
+    public get name() {
+        // заьираємо добавлені значення this._name.replace('aaa','')
 
-    public readonly array:string[]
-    // захищаємо масив через гетер
-    public get arr():string[]{
-        return this.array.map(g=>g)
+        return this._name
+    }
+    constructor(a: string) {
+        this._name = a
     }
 
-    constructor(a:string[]){
-        this.array=a
-       
-    }
+
 }
 
-const car1=new Car(['d','dd','cwcw'])
-car1.arr.push('scc')
-car1.arr.push('scc')
-console.log(car1.arr);
+const a = new Car('1')
+
+console.log(a.name);
