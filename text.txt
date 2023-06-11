@@ -2,3 +2,4 @@ npm init - створюємо package.json
 npm i typescript --save-dev встановлюємо typescript
 npx - утіліта яка дозволяє запускати таски в простішому варіанті
 npx tsc ./src/app.ts компілюємо 
+npx tsc --init конфіг тайпскріпта
