@@ -1,11 +1,14 @@
 class Car {
+    // захищаємо масив через гетер
+    get arr() {
+        return this.array.map(g => g);
+    }
     constructor(a) {
         this.array = a;
-        // Object.freeze(a) варіант для того як зробити так щоб readonly не змінювалося
-        // Object.freeze() -морозить тільки на першому рівні
     }
 }
 const car1 = new Car(['d', 'dd', 'cwcw']);
-car1.array.push('scc');
-console.log(car1.array);
+car1.arr.push('scc');
+car1.arr.push('scc');
+console.log(car1.arr);
 //# sourceMappingURL=app.js.map
