@@ -1,3 +1,4 @@
+// абстрактні класи
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -13,11 +14,18 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
+// від нього не можна створити обєкт
+// від них можн наслідуватися 
+// консолідує в собі базову логіку для дочірних класів
+// абстрактний клас задає нам рамки 
+// більше для розробників що їм треба дещо реалізувати
 var TypeControl;
 (function (TypeControl) {
     TypeControl[TypeControl["Input"] = 0] = "Input";
     TypeControl[TypeControl["Select"] = 1] = "Select";
 })(TypeControl || (TypeControl = {}));
+// // так у нас нема можливості створити обєкт через Control
+// якщо ми помітимо клас як абстрактний тоді ми не будемо запутувати розробників так що вони не зможуть створити від нього інстанс
 var Control = /** @class */ (function () {
     function Control(tc) {
         this._type = tc;
@@ -38,36 +46,43 @@ var Control = /** @class */ (function () {
         enumerable: false,
         configurable: true
     });
-    Control.prototype.getInfo = function () {
-        // name - це геттер
-        return "\u041D\u0430\u0437\u043D\u0430\u0447\u0435\u043D\u0438\u0435: ".concat(this.name);
-    };
     return Control;
 }());
 var TextBox = /** @class */ (function (_super) {
     __extends(TextBox, _super);
     function TextBox() {
-        var _this = 
-        // через super викликається базовий конструктор
-        _super.call(this, TypeControl.Input) || this;
+        var _this = _super.call(this, TypeControl.Input) || this;
         _this._length = 1;
         return _this;
     }
-    // викликаємо метод з батьківського класу і допилюємо йому вивід _length
-    // тут деякий варіант поліморфізму тому що переоприділяємо поведінку батьківського методу
+    Object.defineProperty(TextBox.prototype, "getLength", {
+        get: function () {
+            return this._length;
+        },
+        enumerable: false,
+        configurable: true
+    });
     TextBox.prototype.getInfo = function () {
-        return _super.prototype.getInfo.call(this) + ' ' + this._length;
+        return "Control:name =".concat(this.name, " \u0434\u043B\u0438\u043D\u0430 \u0441\u0442\u0440\u043E\u043A\u0438 =").concat(this._length);
     };
     return TextBox;
 }(Control));
 var SelectBox = /** @class */ (function (_super) {
     __extends(SelectBox, _super);
-    function SelectBox() {
-        return _super.call(this, TypeControl.Select) || this;
+    function SelectBox(items) {
+        if (items === void 0) { items = []; }
+        var _this = _super.call(this, TypeControl.Select) || this;
+        _this._items = items;
+        return _this;
     }
+    SelectBox.prototype.getInfo = function () {
+        // в d попаде first а в с second якщо не ініціалізувати d
+        var str = this._items.reduce(function (d, c) { return d + '; ' + c; });
+        return "Control:name =".concat(this.name, " SelectBox variants =").concat(str);
+    };
     return SelectBox;
 }(Control));
 var textbox = new TextBox();
 console.log(textbox.getInfo());
-var selectBox = new SelectBox();
+var selectBox = new SelectBox(['first', 'second', 'third']);
 console.log(selectBox.getInfo());
