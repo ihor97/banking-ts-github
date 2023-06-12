@@ -1,29 +1,53 @@
-class classBase{
-    public property1:number
-    protected property2:string
-    private _property3:boolean
-    constructor(p1:number,p2:string,p3:boolean){
-        this.property1=p1
-        this.property2=p2
-        this._property3=p3
+enum TypeControl{
+    Input=0,
+    Select=1
+}
+
+class Control{
+    private _type:TypeControl
+
+    public get name():string{
+        let result=''
+        switch(this._type){
+            case TypeControl.Input:
+                result='Ввод текста'
+                break;
+            case TypeControl.Select:
+                result='выбор значения с списка'
+                break;
+        }
+        return result
+    }
+
+    constructor(tc:TypeControl){
+        this._type=tc
     }
     public getInfo():string{
-        return `prop1 ${this.property1} prop2 ${this.property2} prop3 ${this._property3}`
+        // name - це геттер
+        return `Назначение: ${this.name}`
     }
 }
 
-class ClassA extends classBase{
+class TextBox extends Control{
+    private _length:number
     constructor(){
-        super(1,'класс А',true)
+        // через super викликається базовий конструктор
+        super(TypeControl.Input)
+        this._length=1
+    }
+    // викликаємо метод з батьківського класу і допилюємо йому вивід _length
+    // тут деякий варіант поліморфізму тому що переоприділяємо поведінку батьківського методу
+    public getInfo(): string {
+        return super.getInfo()+' '+this._length
     }
 }
-class ClassB extends classBase{
+class SelectBox extends Control{
     constructor(){
-        super(1,'класс B',false)
+        super(TypeControl.Select)
     }
 }
 
-const A=new ClassA()
-const B=new ClassB()
-console.log(A.getInfo());
-console.log(B.getInfo());
+let textbox=new TextBox()
+console.log(textbox.getInfo());
+let selectBox=new SelectBox()
+console.log(selectBox.getInfo());
