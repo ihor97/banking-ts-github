@@ -1,28 +1,58 @@
 // interface User {
-//     name:string,
-//     age:number,
+//     type: 'user';
+//     name:string;
+//     age:number;
+//     occupation:string
+// }
+// interface Admin {
+//     type: 'admin';
+//     name:string;
+//     age:number;
 //     role:string
 // }
-// type Person=unknown
 const persons = [
     {
-        name: 'ivan',
-        age: 23,
-        occupation: 'butcher'
+        type: 'user',
+        name: 'Max Musterman',
+        age: 25,
+        occupation: 'Chimney sweep'
     },
     {
-        name: 'ihor',
-        age: 23,
-        occupation: 'butcher'
+        type: 'admin',
+        name: 'Jane Joe',
+        age: 27,
+        role: 'Administrator'
     },
     {
-        name: 'ihor',
+        type: 'admin',
+        name: 'Willis',
+        age: 64,
+        role: 'World saver'
+    },
+    {
+        type: 'user',
+        name: 'Wilson',
+        age: 64,
+        occupation: 'ball'
+    },
+    {
+        type: 'admin',
+        name: 'Agent Smith',
         age: 23,
-        role: 'butcher'
+        role: 'Administrator'
     }
 ];
-function logUser(user) {
-    console.log(`${user.name} ${user.age}`);
+// приводимо до типу якщо виконується умова
+const isAdmin = (person) => person.type === 'admin';
+const isUser = (person) => person.type === 'user';
+function logPerson(person) {
+    let additionalInfo = '';
+    if (isAdmin(person)) {
+        additionalInfo = person.role;
+    }
+    if (isUser(person)) {
+        additionalInfo = person.occupation;
+    }
+    console.log(`- ${person.name},${person.age},${additionalInfo}`);
 }
-persons.forEach(logUser);
 //# sourceMappingURL=app.js.map

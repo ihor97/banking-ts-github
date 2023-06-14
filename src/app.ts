@@ -1,69 +1,126 @@
 // interface User {
-//     name:string,
-//     age:number,
+//     type: 'user';
+//     name:string;
+//     age:number;
+//     occupation:string
+// }
+// interface Admin {
+//     type: 'admin';
+//     name:string;
+//     age:number;
 //     role:string
 // }
-// type Person=unknown
 
-// // робимо інтерфейсів обєднання
+//  type Person=User | Admin
 
-// const persons:User[]=[
+//  const persons:Person[]=[
 //     {
-//         name:'ivan',
-//     age:23,
-//     occupation:'butcher'
+//         type:'user',
+//         name:'Max Musterman',
+//         age:25,
+//         occupation:'Chimney sweep'
 //     },
 //     {
-//         name:'ihor',
-//     age:23,
-//     occupation:'butcher'
+//         type:'admin',
+//         name:'Jane Joe',
+//         age:27,
+//         role:'Administrator'
 //     },
 //     {
-//         name:'ihor',
-//     age:23,
-//     role:'butcher'
+//         type:'admin',
+//         name:'Willis',
+//         age:64,
+//         role:'World saver'
+//     },
+//     {
+//         type:'user',
+//         name:'Wilson',
+//         age:64,
+//         occupation:'ball'
+//     },
+//     {
+//         type:'admin',
+//         name:'Agent Smith',
+//         age:23,
+//         role:'Administrator'
 //     }
 // ]
 
-// function logUser(user:Person) {
-//     console.log(`${user.name} ${user.age}`);
+//  const isAdmin=(person:Person)=>person.type==='admin'
+//  const isUser=(person:Person)=>person.type==='user'
+
+//  function logPerson(person:Person) {
+//     let additionalInfo=''
+//     if(isAdmin(person)){
+//         additionalInfo=person.role
+//     }
+//     if(isUser(person)){
+//         additionalInfo=person.occupation
+//     }
+//     console.log(`- ${person.name},${person.age},${additionalInfo}`);
+    
 // }
 
-// persons.forEach(logUser)
-
-interface Admin {
-    name: string,
-    age: number,
-    role: string
-}
+// рішення 
 interface User {
-    name: string,
-    age: number,
-    occupation: string
+    type: 'user';
+    name:string;
+    age:number;
+    occupation:string
 }
-// робимо інтерфейсів обєднання
-type Person = Admin | User
+interface Admin {
+    type: 'admin';
+    name:string;
+    age:number;
+    role:string
+}
 
-const persons: Person[] = [
+ type Person=User | Admin
+
+ const persons:Person[]=[
     {
-        name: 'ivan',
-        age: 23,
-        occupation: 'butcher'
+        type:'user',
+        name:'Max Musterman',
+        age:25,
+        occupation:'Chimney sweep'
     },
     {
-        name: 'ihor',
-        age: 23,
-        occupation: 'butcher'
+        type:'admin',
+        name:'Jane Joe',
+        age:27,
+        role:'Administrator'
     },
     {
-        name: 'ihor',
-        age: 23,
-        role: 'butcher'
+        type:'admin',
+        name:'Willis',
+        age:64,
+        role:'World saver'
+    },
+    {
+        type:'user',
+        name:'Wilson',
+        age:64,
+        occupation:'ball'
+    },
+    {
+        type:'admin',
+        name:'Agent Smith',
+        age:23,
+        role:'Administrator'
     }
 ]
+// приводимо до типу якщо виконується умова
+ const isAdmin=(person:Person):person is Admin=>person.type==='admin'
+ const isUser=(person:Person):person is User=>person.type==='user'
 
-function logUser(user: Person) {
-    console.log(`${user.name} ${user.age}`);
+ function logPerson(person:Person) {
+    let additionalInfo=''
+    if(isAdmin(person)){
+        additionalInfo=person.role
+    }
+    if(isUser(person)){
+        additionalInfo=person.occupation
+    }
+    console.log(`- ${person.name},${person.age},${additionalInfo}`);
+    
 }
-
-persons.forEach(logUser)
