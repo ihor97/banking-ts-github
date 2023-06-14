@@ -1,8 +1,3 @@
-enum User{
-    Admin,
-    Client
-}
-// використання єнамів, єнам це перечислення
-let a:User=User.Admin
-// ще можна записати ось так число що відповідає значенню з єнама
-let b:User=1
+// void vs undefined. undefined - це є тип і значення а void -це є тип
+// правда може бути таке
+let a:void=undefined
