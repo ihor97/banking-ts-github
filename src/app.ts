@@ -1,7 +1,13 @@
+// interface User {
+//     name:string,
+//     age:number,
+//     role:string
+// }
+// type Person=unknown
 
+// // робимо інтерфейсів обєднання
 
-// type User=unknown
-// const users:unknown[]=[
+// const persons:User[]=[
 //     {
 //         name:'ivan',
 //     age:23,
@@ -11,36 +17,53 @@
 //         name:'ihor',
 //     age:23,
 //     occupation:'butcher'
+//     },
+//     {
+//         name:'ihor',
+//     age:23,
+//     role:'butcher'
 //     }
 // ]
 
-// function logUser(user:User) {
+// function logUser(user:Person) {
 //     console.log(`${user.name} ${user.age}`);
 // }
 
-// users.forEach(logUser)
+// persons.forEach(logUser)
 
-// рішення
-type User={
-    name:string,
-    age:number,
-    occupation:string
+interface Admin {
+    name: string,
+    age: number,
+    role: string
 }
+interface User {
+    name: string,
+    age: number,
+    occupation: string
+}
+// робимо інтерфейсів обєднання
+type Person = Admin | User
 
-const users:User[]=[
+const persons: Person[] = [
     {
-        name:'ivan',
-    age:23,
-    occupation:'butcher'
+        name: 'ivan',
+        age: 23,
+        occupation: 'butcher'
     },
     {
-        name:'ihor',
-    age:23,
-    occupation:'butcher'
+        name: 'ihor',
+        age: 23,
+        occupation: 'butcher'
+    },
+    {
+        name: 'ihor',
+        age: 23,
+        role: 'butcher'
     }
 ]
 
-function logUser(user:User) {
+function logUser(user: Person) {
     console.log(`${user.name} ${user.age}`);
 }
-users.forEach(logUser)
+
+persons.forEach(logUser)
