@@ -1,63 +1,61 @@
-var System;
-(function (System) {
-    System[System["Linux"] = 0] = "Linux";
-    System[System["Windows"] = 1] = "Windows";
-    System[System["MacOs"] = 2] = "MacOs";
-})(System || (System = {}));
-const obj1 = {
-    prop1: 'hello rtf',
-    prop2: false
-};
-const obj2 = {
-    prop1: 'hello ufu',
-    prop2: true
-};
-const obj3 = {
-    prop1: 'hello mir',
-    prop2: true
-};
-const obj4 = {
-    prop1: undefined,
-    prop2: () => {
-        return new Date();
+const persons = [
+    {
+        type: 'user',
+        name: 'Max Musterman',
+        age: 25,
+        occupation: 'Chimney sweep'
+    },
+    {
+        type: 'admin',
+        name: 'Jane Joe',
+        age: 27,
+        role: 'Administrator'
+    },
+    {
+        type: 'admin',
+        name: 'Willis',
+        age: 64,
+        role: 'World saver'
+    },
+    {
+        type: 'user',
+        name: 'Wilson',
+        age: 64,
+        occupation: 'ball'
+    },
+    {
+        type: 'admin',
+        name: 'Agent Smith',
+        age: 23,
+        role: 'Administrator'
     }
-};
-const obj5 = {
-    prop1: undefined,
-    prop2: () => {
-        return new Date(2021, 3, 1);
+];
+const isAdmin = (person) => person.type === 'admin';
+const isUser = (person) => person.type === 'user';
+function logPerson(person) {
+    let additionalInfo = '';
+    if (isAdmin(person)) {
+        additionalInfo = person.role;
     }
-};
-const obj6 = {
-    prop1: 'cats',
-    prop2: true,
-    prop3: System.Linux
-};
-const obj7 = {
-    prop1: 'cats',
-    prop2: true,
-    prop3: System.Windows
-};
-const array = [obj1, obj2, obj3, obj4, obj5, obj6, obj7];
-// фільтрація по типу 
-function filter(arr, type) {
-    const res = arr.filter(e => {
-        // будемо робити перевірку на основі дожини масиву ключів обєкта що попадає
-        let size = Object.keys(e).length;
-        if (type == 'FirstType') {
-            return size == 2 && typeof e.prop2 === 'boolean';
-        }
-        if (type == 'SecondType') {
-            return size == 2 && typeof e.prop2 === 'function';
-        }
-        if (type == 'ThirdType') {
-            return size == 3;
-        }
-        return false;
-    });
-    return res;
+    if (isUser(person)) {
+        additionalInfo = person.occupation;
+    }
+    console.log(`- ${person.name},${person.age},${additionalInfo}`);
 }
-console.log(filter(array, 'FirstType'));
-console.log(filter(array, 'SecondType'));
-console.log(filter(array, 'ThirdType'));
+// можна зробити обмеження для приймаємого типу 
+// Pick дозволяє вибрати декілька параметрів з обєкта і привести його до деякого типу
+// Pick в даній області видимості дозволяє юзати тип не як повноцінний тип User а як тільки обєкт з одним полем age при тому він розглядається як тип юзер
+//   criteria:Pick<User,'age'> Pick  бере з обєкта тільки поле age
+function filterUser(persons, criteria) {
+    return persons.filter(isUser).filter(user => {
+        // The keyof operator takes an object type and produces a string or numeric literal union of its keys.
+        const criteriaKeys = Object.keys(criteria);
+        return criteriaKeys.every(fieldName => {
+            return user[fieldName] === criteria[fieldName];
+        });
+    });
+}
+console.log(filterUser(persons, {
+    age: 25
+}));
 //# sourceMappingURL=app.js.map
