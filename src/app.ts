@@ -1,40 +1,15 @@
-// обєднання типів
-// type sn=string|number
-// let n:sn='s'
-// n=1
 
-//////////////////////////////////////////////////
+interface InterfaceType{
+    prop1:string;
+    prop2:boolean;
+    prop3:{prop4:string,prop5:Date};
+    // необовязковий параметр
+    prop6?: ()=> string //такий варік 
 
-// class User{
 
-// }
-// class Animal{
+}
 
-// }
-// type sn=User|Animal
-// // матюкатися не буде
-// let n:sn='s'
-// n=1
 
-/////////////////////////////////
-
-// строковий літерали
-// let n:'n1'|'n2'|'n3'
-// n='n3'
-
-///////////////////////////////////////
-
-// типи обгортки
-// let n1:Number=new Number(1)
-// let n2:number=1
-
-/////////////////////////////////////////
-
-// приведення типів два варіанти
-
-// let str:any='qwe';
-// (<string>str).length;
-// (str as string).length
-
-//////////////////////////////////////
-
+function logObj(logObj:InterfaceType) {
+    console.log(logObj);
+}
