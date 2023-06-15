@@ -1,39 +1,26 @@
 class Control {
-    constructor() {
-    }
-    // у нас є три різні методи getinfo
-    getinfo() {
-        return `Обычная иформация о контроле`;
-    }
+    constructor() { }
 }
+// текстбокси працюють тільки з string
 class TextBox extends Control {
     constructor() {
         super();
     }
-    // поліморфізм
-    getinfo() {
-        return `Инфа о контроле TextBox`;
+    setValue(val) {
+        this.value = val;
     }
 }
-class SelectBox extends Control {
-    constructor() {
-        super();
-    }
-}
+// чекбокси працюють тільки з boolean
 class CheckBox extends Control {
     constructor() {
         super();
     }
-    // поліморфізм
-    getinfo() {
-        let baseInfo = super.getinfo();
-        return `${baseInfo}, а также инфа с CheckBox`;
+    setValue(val) {
+        this.value = val;
     }
 }
-const textBox = new TextBox();
-console.log(textBox.getinfo());
-const selectBox = new SelectBox();
-console.log(selectBox.getinfo());
-const checkBox = new CheckBox();
-console.log(checkBox.getinfo());
+let textBox = new TextBox();
+textBox.setValue('string');
+let checkBox = new CheckBox();
+checkBox.setValue(true);
 //# sourceMappingURL=app.js.map

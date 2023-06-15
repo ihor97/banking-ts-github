@@ -1,46 +1,34 @@
+abstract class Control{
+    // тут буде поліморфізм і ми в дочірніх класах ставимо вже типи
+    protected abstract value:any
+    constructor(){}
+    // тут буде поліморфізм і ми в дочірніх класах ставимо вже типи
+    public abstract setValue(val:any):void
 
-interface IControl{
-    getinfo:()=>string
+
 }
-class Control implements IControl{
-    constructor(){
-
-    }
-    // у нас є три різні методи getinfo
-    public getinfo():string{
-        return `Обычная иформация о контроле`
-    }
-}
-
+// текстбокси працюють тільки з string
 class TextBox extends Control{
+    protected value: string
     constructor(){
         super()
     }
-    // поліморфізм
-    public getinfo(): string {
-        return `Инфа о контроле TextBox`
+    public setValue(val: string): void {
+        this.value=val
     }
 }
-class SelectBox extends Control{
-    constructor(){
-        super()
-    }
-}
+// чекбокси працюють тільки з boolean
 class CheckBox extends Control{
+    protected value: boolean
     constructor(){
         super()
     }
-    // поліморфізм
-    public getinfo(): string {
-        let baseInfo=super.getinfo()
-        return `${baseInfo}, а также инфа с CheckBox`
-    
+    public setValue(val: boolean): void {
+        this.value=val
     }
 }
 
-const textBox=new TextBox()
-console.log((<IControl>textBox).getinfo());
-const selectBox=new SelectBox()
-console.log((<IControl>selectBox).getinfo());
-const checkBox=new CheckBox()
-console.log((<IControl>checkBox).getinfo());
+let textBox=new TextBox()
+textBox.setValue('string')
+let checkBox=new CheckBox()
+checkBox.setValue(true)
