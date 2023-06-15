@@ -1,43 +1,47 @@
-// приведення  типів інстансів класів можна робити через instaceof 
-// instanceof для інтерфейсів не працює так як в js немає інтерфейсів
-class Example {
-    convert() {
-        return `name ${this.name} count=${this.count}`;
+// патерн visitor
+class ConcreteComponentA {
+    accept(visitor) {
+        visitor.visitConcreteComponentA(this);
+    }
+    exclusiveMethodOfConcreteComponentA() {
+        return 'A';
     }
 }
-class ExampleA extends Example {
-    constructor(a) {
-        super();
-        this.testA = a;
+class ConcreteComponentB {
+    accept(visitor) {
+        visitor.visitConcreteComponentB(this);
+    }
+    specialMethodOfConcreteComponentB() {
+        return 'B';
     }
 }
-class ExampleB extends Example {
-    constructor(b) {
-        // в конструкторі потомків завжди має викоикатися super()
-        super();
-        this.testB = b;
+class ConcreteVisitor1 {
+    visitConcreteComponentA(element) {
+        console.log(`${element.exclusiveMethodOfConcreteComponentA()}+ConcreteVisitor1`);
+    }
+    visitConcreteComponentB(element) {
+        console.log(`${element.specialMethodOfConcreteComponentB()}+ConcreteVisitor1`);
     }
 }
-const exampleA2 = new ExampleA('a2');
-const exampleA1 = new ExampleA('a1');
-const exampleA3 = new ExampleA('a3');
-const exampleB1 = new ExampleB('b1');
-const exampleB2 = new ExampleB('b2');
-const exampleB3 = new ExampleB('b3');
-// так як всі вони наслідуються від Example то в масиві будуть значення ExampleA і ExampleB
-const collection = [];
-// можна багато параметрів передавати в push
-collection.push(exampleA2, exampleA1, exampleA3, exampleB1, exampleB2, exampleB3);
-// f:Function передаємо батьківський клас
-function filter(f) {
-    for (let i = 0; i < collection.length; i++) {
-        const item = collection[i];
-        if (item instanceof f) {
-            console.log(`item==typeof ${f.prototype.constructor.name}`, item);
-        }
+class ConcreteVisitor2 {
+    visitConcreteComponentA(element) {
+        console.log(`${element.exclusiveMethodOfConcreteComponentA()}+ConcreteVisitor2`);
+    }
+    visitConcreteComponentB(element) {
+        console.log(`${element.specialMethodOfConcreteComponentB()}+ConcreteVisitor2`);
     }
 }
-// таким чином можна переобразувати типи (має значення якщо типи мають якийсь звязок)
-filter(ExampleA);
-// filter(ExampleB)
+function clientCode(components, visitor) {
+    for (const comp of components) {
+        comp.accept(visitor);
+    }
+}
+const components = [
+    new ConcreteComponentA(),
+    new ConcreteComponentB()
+];
+const visitor1 = new ConcreteVisitor1();
+clientCode(components, visitor1);
+const visitor2 = new ConcreteVisitor2();
+clientCode(components, visitor2);
 //# sourceMappingURL=app.js.map
