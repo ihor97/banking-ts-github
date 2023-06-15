@@ -1,69 +1,68 @@
+// поліморфізм якийсь обєкт в різних умовах може мати різні властивості при тому маючи один інтерфейс
+// може бути один метод і в залежності від того в якому класі ми його викликаємо з одною й тою самою сигнатурою виконує різні ф-ї
 
-// інтерфейс опис класу але не його релізація
+// є дві варіації - коли один інтерфейс має багато реалізацій і другий коли один метод в залежності від того 
+// з якого класу ми його викликаємо з одною і тою самою сигнатурою на одному дереві наслідування він виконує різні функції
 
-// interface IExample{
-//     name:string;
-//     count:number;
-//     // опис методу в інтерфейсі
-//     convert?(g:number):string
-// }
-// let example:IExample={
-//     count:1,
-//     name:'ee'
-// }
-// console.log((<IExample>example).count);//ми то можемо скастувати але не факт що обєкт буде мати всі поля
+interface IPrintMessage{
+    saveMessage(message:string):boolean
+    print():void
+}
+class PrintMessageToConsole implements IPrintMessage{
+    private _prefix:string
+    private _message:string
 
-// правило по якому має бути створнеий клас
-// interface IExample{
-//     name:string;
-//     count:number;
-//     link?:string
-//     // опис необовязкового методу в інтерфейсі 
-//     convert?(g:number):string;
-    
-// }
-// // реалізація класу по інтерфейсу
-
-// class Example implements IExample{
-//     public name:string
-//     public count: number;
-//     public title:string
-//     public convert(g:number):string{
-//         return ''
-//     }
-// }
-
-
-///////////////////////////////////////////
- interface IExample{
-        name:string;
-        count:number;
-        link?:string
-        // опис методу в інтерфейсі
-        convert?(g:number):string
+    constructor(){
+        this._prefix='вывод многострочный'
     }
-    // наслідування інтрефейсів
-    interface IExampleChildren extends IExample{
-        prop1:string
-    }
-    
-    let exampleChildren:IExampleChildren={
-        count:1,
-        name:'sss',
-        prop1:'1111',
-        convert(g:number):string{
-            return ''
+
+    public saveMessage(message: string): boolean {
+        if(!message){
+            return false
         }
+        this._message=message
+        return true
     }
+    public print(): void {
+        if(!this._message){
+            throw new Error('пусто!')
+        }
+        let text=`
+        ${this._prefix}.
+        Сообщение: '${this._message}'`
+        console.log(text);
+        
+    }
+}
+class PrintMessagToDocument implements IPrintMessage{
+    private _message:string
+    constructor(){}
+    public saveMessage(message: string): boolean {
+        if(!message){
+            return false    
+        }
+        this._message='Вывод в дом в одну строку.'
+        return true
+    }
+    public print(): void {
+        document.write(this._message)
+    }
+}
 
+const printMessageToConsole= new PrintMessageToConsole()
+if(printMessageToConsole.saveMessage('сообщение для класа printMessageToConsole')){
+    printMessageToConsole.print()
+}
+const printMessageToDocument= new PrintMessagToDocument()
+if(printMessageToDocument.saveMessage('сообщение для класа printMessageToDocument')){
+    printMessageToDocument.print()
+}
 
+// маємо ф-ю яка приймає обєкт типу IExample  в залежності від того який обєкт передамо буде інший вивід
+// маємо ф-ю яка буде приймати два типи наших обєктів по типу інтерфейса
+function showObj(obj:IPrintMessage){
+    obj.print()
+}
 
-
-
-
-
-
-
-
-
-
+// showObj(printMessageToDocument)
+// showObj(printMessageToConsole)
