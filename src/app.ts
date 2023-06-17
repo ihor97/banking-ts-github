@@ -1,8 +1,8 @@
+
 interface IExamle{
-    name?:string
-    count?:number
-    region?:string
+    name:string
+    count:number
+    region:string
 }
-// робить усі поля обовязковими
-type IExamleRequired=Required<IExamle>
-let h:IExamleRequired
+// робить навпаки як omit тобто після коми вказуємо те що має бути а все решта відкидається
+type IExamleRequired=Pick<IExamle,'name'|'count'>
