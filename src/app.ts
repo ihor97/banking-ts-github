@@ -1,16 +1,12 @@
-// шаблонний тип Т який ми можемо підставляти в залежності від того який тип Т ми вказуємо
-// дозволяє не дублювати код
-// function result<T>(value:T):T {
-//     return value
-// }
-// // в трикутних скобках типізуємо ф-ю
-// result<number>(1)
-// можна і так result(1)
+class ExampleA{
+    public f:number
 
-// запис для масиву
-// function  result<T>(value:Array<T>):Array<T> {
-//     console.log(value.length);
-//     return value
-// }
-
-// result<string>(['1','2'])
+}
+class ExampleB{
+    public f:string
+}
+// використання для класів
+function result<T>(value:T):T {
+    return value
+}
+console.log(result<ExampleB>(new ExampleB()));
