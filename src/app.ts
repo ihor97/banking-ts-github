@@ -1,8 +1,30 @@
-interface IExamle{
-    name:string
-    count:number
-    region:string
+class Model<T>{
+    constructor(private entity:T){
+
+    }
+    public getValueKey<U extends keyof T>(key : U):T[U]{
+        return this.entity[key]
+    }
+
+    public update(partial: Partial<T>):void{
+        Object.assign(this.entity as {},partial)
+    }
 }
-// робить всі наші поля не обовязковими тобто зі знаком ?
-type IExamlePartial=Partial<IExamle>
-let h:IExamlePartial
+interface IAnimalEntity{
+    name:string
+    age:number
+}
+
+let json='{"name":"animal","age":0}'
+let entity=JSON.parse(json)
+let animalModel:Model<IAnimalEntity>=new Model(entity)
+console.log(animalModel);
+
+console.log(animalModel.getValueKey('name'));
+
+let newjson='{"name":"newanimal"}'
+let newentity=JSON.parse(newjson)
+animalModel.update(newentity)
+console.log(animalModel.getValueKey('name'));
+console.log(animalModel);
+
