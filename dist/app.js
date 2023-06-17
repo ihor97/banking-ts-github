@@ -1,10 +1,14 @@
-class ExampleA {
+class AbstractExample {
 }
-class ExampleB {
+class ExampleA extends AbstractExample {
 }
-// використання для класів
-function result(value) {
-    return value;
+class ExampleB extends AbstractExample {
 }
-console.log(result(new ExampleB()));
+class ExmpleOther {
+}
+// обмеження в generic в тип Т залітає тільки те що унаслідовано від AbstractExample
+// ExmpleOther ми не зможемо передати
+function result(val) {
+    return val;
+}
 //# sourceMappingURL=app.js.map
