@@ -1,30 +1,36 @@
-// типи рівні за сигнатурою але різні за полями 
+
+//// літерал строка по суті enum  
+// // може бути тільки два значення 'Linux'|'Windows'
+type OperationsSystem='Linux'|'Windows'
+let os:OperationsSystem='Linux'
 
 
-// type A={key1:string,key2:string}
-// type B={key2:string,key3:string}
+// ---------------------------------------------//
 
-// // конкатенація типів
-// type result =A&B
-
-// const g={
-//     key1:'',
-//     key2:'',
-//     key3:''
-// }
-
-// ----другий варік де key2 number
-type A={key1:string,key2:string}
-type B={key2:number,key3:string}
-
-// Omit Это новый тип, в котором можно указать свойства, которые будут исключены из исходного типа.
-// цей тип видаляє вказані властивості з типу 
-// тобто булу видалено спільну властивість key2
-type GetObjDifferentKeys<T,U>=Omit<T,keyof U>& Omit<U,keyof T>
-
-
-// key2 видалено
-let obj:GetObjDifferentKeys<A,B>={
-    key1:'1',
-    key3:'3'
+interface IExamle{
+    name:string
+    count:number
+    region:string
 }
+
+// тут keyof працює як літерал віе верне всі назви полів інтерфейсу IExamle
+type IExamleType=keyof IExamle //"count" | 'name' | 'region' вийде такий результат
+
+let g:IExamleType="count"
+
+// -------------------------------------------------//
+
+//keyof вертає ключі також з нетипізованого обєкта
+const bmw={name:'BMW',power:'1003hp'}
+// можна получити поля обєкта 
+type CarLiteralType=keyof typeof bmw
+let h:CarLiteralType="name"
+
+// -------------------------------------------------------//
+// // дістаємо ключі енума
+enum ColorsEnum{
+    white='#ffffff',
+    black='#000000'
+}
+type CarLiteralType2=keyof typeof ColorsEnum
+let h1:CarLiteralType2="black"
