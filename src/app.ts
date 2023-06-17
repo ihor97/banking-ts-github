@@ -1,33 +1,16 @@
-abstract class Control {
-    // тут тоже поліморфізм
-    protected abstract value:any
-    constructor() {
-        
-    }
-    // поліморфізм інша реалізація метода відмінна від базового 
-    // різні варіанти чого небудь з одною і тою самою сигнатурою в цьому випвдку метод setValue
-    public abstract setValue(val:any):void
-}
+// шаблонний тип Т який ми можемо підставляти в залежності від того який тип Т ми вказуємо
+// дозволяє не дублювати код
+// function result<T>(value:T):T {
+//     return value
+// }
+// // в трикутних скобках типізуємо ф-ю
+// result<number>(1)
+// можна і так result(1)
 
-class TextBox extends Control{
-    protected value: string
-    constructor(){
-        super()
-    }
+// запис для масиву
+// function  result<T>(value:Array<T>):Array<T> {
+//     console.log(value.length);
+//     return value
+// }
 
-    public setValue(val:string):void{
-        this.value=val
-    }
-}
-
-class CheckBox extends Control{
-    protected value: boolean
-    constructor(){
-        super()
-    }
-    public setValue(val: boolean): void {
-        this.value=val
-    }
-}
-const textBox=new TextBox()
-textBox.setValue('wsss')
+// result<string>(['1','2'])
