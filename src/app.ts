@@ -1,13 +1,17 @@
-// вказуємо класу з яким типом йому працювати при його створенні
-class Example<T>{
-    private _id:T
-    constructor(id:T){
-        this._id=id
-    }
-    public getId():T{
-        return this._id
-    }
+interface GenericInterface<Z>{
+    value:Z
+    getIdentity:()=>Z
 }
-// показує класу з яким типом він має працювати
-const example1=new Example<number>(3)
-const example2=new Example<string>('eee')
+class IdentityClass<T> implements GenericInterface<T>{
+    public value: T
+    constructor(value:T){
+        this.value=value
+    }
+    public getIdentity () :T{
+        return this.value
+    }
+
+}
+
+const myNum=new IdentityClass<number>(4)
+const myStr=new IdentityClass<string>('ddd')

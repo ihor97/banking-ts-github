@@ -1,13 +1,11 @@
-// вказуємо класу з яким типом йому працювати при його створенні
-class Example {
-    constructor(id) {
-        this._id = id;
+class IdentityClass {
+    constructor(value) {
+        this.value = value;
     }
-    getId() {
-        return this._id;
+    getIdentity() {
+        return this.value;
     }
 }
-// показує класу з яким типом він має працювати
-const example1 = new Example(3);
-const example2 = new Example('eee');
+const myNum = new IdentityClass(4);
+const myStr = new IdentityClass('ddd');
 //# sourceMappingURL=app.js.map
