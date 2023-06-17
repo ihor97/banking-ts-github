@@ -1,14 +1,10 @@
-class AbstractExample {
+class ExampleA {
 }
-class ExampleA extends AbstractExample {
+class ExampleB {
 }
-class ExampleB extends AbstractExample {
+// для того щоб створити ексемпляр типу треба такий синтаксис
+function userFactory(type) {
+    return new type();
 }
-class ExmpleOther {
-}
-// обмеження в generic в тип Т залітає тільки те що унаслідовано від AbstractExample
-// ExmpleOther ми не зможемо передати
-function result(val) {
-    return val;
-}
+const example = userFactory(ExampleA);
 //# sourceMappingURL=app.js.map
