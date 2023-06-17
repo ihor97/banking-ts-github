@@ -1,4 +1,7 @@
-// generic класи є для того щоб міняти типи 
-// Omit Partial .... вже готові рішення для роботи з типами 
-let h = { count: 1, name: '' };
+"use strict";
+// робимо конкатенацію різниці і спільного
+Object.defineProperty(exports, "__esModule", { value: true });
+// тут country i region необовязкові поля
+let h = { count: 1, name: '', region: { g: 1, r: '' } };
+// в h country і region будуть необовязковими полями
 //# sourceMappingURL=app.js.map

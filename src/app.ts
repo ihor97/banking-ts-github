@@ -1,9 +1,21 @@
-// generic класи є для того щоб міняти типи 
-// Omit Partial .... вже готові рішення для роботи з типами 
+// робимо конкатенацію різниці і спільного
 
 type GetObjDifferentKeys<T,U>=Omit<T,keyof U>&Omit<U,keyof T>
-// вертає спільні ключі  обєднання ь=типів T|U тобто створюється спільний тип
 type GetObjSameKeys<T,U>=Omit<T|U,keyof GetObjDifferentKeys<T,U>>
+
+type MergeTwoObjects<T,U>=
+Partial<GetObjDifferentKeys<T,U>>
+& {[K in keyof GetObjSameKeys<T,U>]:DeepMergeTwoTypes<T[K],U[K]>}
+
+// воно працює для вложених обєктів
+// [T,U] кортеж перевіряється чи вони унаслідуються від однакових типів
+// {[key:string]:unknown} означає що це обєкт
+// тут використовуємо рекурсію
+export type DeepMergeTwoTypes<T,U>=
+[T,U] extends [{[key:string]:unknown},{[key:string]:unknown}]
+? MergeTwoObjects<T,U>
+: T|U
+
 
 interface IExample2{
     name:string
@@ -13,7 +25,12 @@ interface IExample2{
 interface IExample1{
     name:string
     count:number
-    region:string
+    region:{
+        g:number,
+        r:string
+    }
 }
-type IExampleConcat=GetObjSameKeys<IExample2,IExample1>
-let h:IExampleConcat={count:1,name:''}
+type IExampleConcat=MergeTwoObjects<IExample2,IExample1>;
+// тут country i region необовязкові поля
+let h:IExampleConcat={count:1,name:'',region:{g:1,r:''}}
+// в h country і region будуть необовязковими полями
