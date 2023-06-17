@@ -1,39 +1,30 @@
-interface GenericInterface<Z>{
-    value:Z
-    getIdentity:()=>Z
-}
+// типи рівні за сигнатурою але різні за полями 
 
-interface IExampleTemp{
-    count:number
-}
-interface IGenerate{
-    temp:string
-}
-// клас IdentityClass є типу Т який наслідує параметри з інтрефейсу IExampleTemp та має бути сконструйований по GenericInterface
-// клас з двома шаблонними типами
-class IdentityClass<T extends IExampleTemp,R extends IGenerate> implements GenericInterface<T>{
-    public value: T
-    public e:R
-    constructor(value:T,e:R){
-        this.value=value
-        this.e=e
-    }
-    public getIdentity () :T{
-        return this.value
-    }
-    public generate(e:R){
 
-    }
-}
+// type A={key1:string,key2:string}
+// type B={key2:string,key3:string}
 
-class ExampleTemp implements IExampleTemp{
-    public count: number 
-}
+// // конкатенація типів
+// type result =A&B
 
-const obj:IGenerate={
-    temp:'123'
-}
+// const g={
+//     key1:'',
+//     key2:'',
+//     key3:''
+// }
 
-const et=new ExampleTemp()
-const myNum=new IdentityClass<ExampleTemp,IGenerate>(et,obj)
-console.log(myNum);
+// ----другий варік де key2 number
+type A={key1:string,key2:string}
+type B={key2:number,key3:string}
+
+// Omit Это новый тип, в котором можно указать свойства, которые будут исключены из исходного типа.
+// цей тип видаляє вказані властивості з типу 
+// тобто булу видалено спільну властивість key2
+type GetObjDifferentKeys<T,U>=Omit<T,keyof U>& Omit<U,keyof T>
+
+
+// key2 видалено
+let obj:GetObjDifferentKeys<A,B>={
+    key1:'1',
+    key3:'3'
+}
