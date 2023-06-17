@@ -1,5 +1,5 @@
-// типи зіставлення 
-// Omit
-let h;
-h = { count: 1, region: '' };
+let json = '{"name":"animal","age":0}';
+// обєкт з типом  Readonly робить так що в поля обєкта не можна щось записати
+let animal = JSON.parse(json);
+// іммутабільність -незмінність
 //# sourceMappingURL=app.js.map

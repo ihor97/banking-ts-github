@@ -1,12 +1,10 @@
-// типи зіставлення 
-// Omit
 
-interface IExamle{
+interface IAnimalEntity{
     name:string
-    count:number
-    region:string
+    age:number
 }
-// Omit вказує що треба вичеркнути
-type ExampleOmitType=Omit<IExamle,'name'>
-let h:ExampleOmitType
-h={count:1,region:''}
+
+let json='{"name":"animal","age":0}'
+// обєкт з типом  Readonly робить так що в поля обєкта не можна щось записати
+let animal:Readonly<IAnimalEntity>=JSON.parse(json)
+// іммутабільність -незмінність
