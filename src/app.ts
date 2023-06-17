@@ -1,10 +1,8 @@
-
-interface IAnimalEntity{
+interface IExamle{
     name:string
-    age:number
+    count:number
+    region:string
 }
-
-let json='{"name":"animal","age":0}'
-// обєкт з типом  Readonly робить так що в поля обєкта не можна щось записати
-let animal:Readonly<IAnimalEntity>=JSON.parse(json)
-// іммутабільність -незмінність
+// робить всі наші поля не обовязковими тобто зі знаком ?
+type IExamlePartial=Partial<IExamle>
+let h:IExamlePartial

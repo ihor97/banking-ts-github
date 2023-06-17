@@ -1,5 +1,2 @@
-let json = '{"name":"animal","age":0}';
-// обєкт з типом  Readonly робить так що в поля обєкта не можна щось записати
-let animal = JSON.parse(json);
-// іммутабільність -незмінність
+let h;
 //# sourceMappingURL=app.js.map
