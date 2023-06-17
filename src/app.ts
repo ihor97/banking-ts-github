@@ -1,23 +1,13 @@
-class BeeKeeper{
-    hasMask:boolean=false
+// вказуємо класу з яким типом йому працювати при його створенні
+class Example<T>{
+    private _id:T
+    constructor(id:T){
+        this._id=id
+    }
+    public getId():T{
+        return this._id
+    }
 }
-
-class ZooKeeper{
-    nametag:string='tag'
-}
-
-class Animal{
-    numLegs:number
-}
-class Bee extends Animal{
-    keeper:BeeKeeper=new BeeKeeper()
-}
-class Lion extends Animal{
-    keeper:ZooKeeper=new ZooKeeper()
-}
-// можна використовувати тільки конструктори які унаслідуються від Animal
-function createInstance<TAnimal extends Animal>(c:new ()=>TAnimal):TAnimal {
-    return new c()
-}
-console.log(createInstance(Lion).keeper.nametag);
-console.log(createInstance(Bee).keeper.hasMask);
+// показує класу з яким типом він має працювати
+const example1=new Example<number>(3)
+const example2=new Example<string>('eee')
