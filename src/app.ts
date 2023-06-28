@@ -1,62 +1,46 @@
-// Open closed principle
-// класи відкриті для розширення але закриті для модифікацій
+// Liskov Substitution principle
+// якщо P являється підтипом Т то ми можемо підставити тип P в замість типу T без всяких негативиних наслідків для програми
 
-enum Shape {
-    square='SQUARE',
-    circle="CIRCLE"
-}
+
 namespace incorrect{
-    class Square{
-        private _sideSize:number
-        private _type=Shape.square
-        constructor(sideSize){
-            this._sideSize=sideSize
+    class Rectangle{
+        constructor(public width:number,public height:number){
+
         }
-        public get sideSize():number{
-            return this._sideSize
+        setWidth(width:number){
+            this.width=width
         }
-        public get type():Shape{
-            return this._type
+        setHeight(height:number){
+            this.height=this.height
+        }
+        getArea(){
+            return this.height*this.width
         }
     }
-    class Circle{
-        private _radiusSize:number
-        private _type=Shape.circle
-        constructor(sideSize){
-            this._radiusSize=sideSize
+    class Square extends Rectangle{
+        constructor(size:number){
+            super(size,size)
         }
-        public get sideSize():number{
-            return this._radiusSize
+        setWidth(width:number){
+            this.width=width
+            this.height=width
         }
-        public get type():Shape{
-            return this._type
+        setHeight(height:number){
+            this.height=this.height
+            this.height=height
+            
         }
-    }
-
-    class Calculator{
-        private _shapes:any[]=[]
-        constructor(shapes:any[]){
-            this._shapes=shapes
-        }
-        public calculateAllAreas():number{
-            return this._shapes.reduce((acc,shape)=>{
-
-                if(shape.type===Shape.circle){
-                     acc+=Math.PI*shape.sideSize**2
-                }
-                // якщо ми захочемо додати якусь фігури треба буде давати ще один if
-                if(shape.type===Shape.square){
-                     acc+=shape.sideSize**2
-                }
-                return acc
-            },0)
+        getArea(){
+            return this.height*this.width
         }
     }
 
-
-    const res = new Calculator([new Square(5),new Circle(0)])
-
-    console.log(res.calculateAllAreas());
+    const testShapesSize=(rect:Rectangle)=>{
+        // для квадрата цей тест зламається так як спочатку ставиться значення 10 а потім 5 
+        rect.setHeight(10)
+        rect.setWidth(5)
+        return rect.getArea()===50 ? 'correct':'failed'
+    }
     
 
 }
@@ -64,53 +48,54 @@ namespace incorrect{
 
 namespace correct{
 
-
-
-abstract class Shape {
-    abstract getArea():number
+interface Shape{
+    getArea:()=>number
+}
+interface WidthfulShape{
+    setWidth:(size:number)=>void
+}
+interface HeightfulShape{
+    setHeight:(height:number)=>void
 }
 
-class Circle extends Shape{
-    private _sideSize:number
-    constructor(sideSize){
-        super()
-        this._sideSize=sideSize
-    }
-  getArea(): number {
-      return Math.PI*this._sideSize**2
-  }
-}
-class Square extends Shape{
-    private _sideSize:number
-    constructor(sideSize){
-        super()
-        this._sideSize=sideSize
-    }
-  getArea(): number {
-      return this._sideSize**2
-  }
-}
-class AreaCalculator{
-    shapes:Shape[]=[]
-    sum:number
+type SquareShape=Shape&WidthfulShape
+type RectAngleShape=Shape&WidthfulShape&HeightfulShape
 
-    constructor(shapes:Shape[]){
-        this.shapes=shapes
+class Square implements SquareShape{
+ 
+    constructor(public width:number){}
+    setWidth(size){
+        this.width=size
     }
-    calculateAllAreas(){
-        this.sum=this.shapes.reduce((acc,e)=>acc+=e.getArea(),0)
-        return this.sum
+    getArea(){
+        return this.width**2
+    }
+}
+class Rectangle implements RectAngleShape{
+ 
+    constructor(public width:number,public height:number){}
+    setWidth(size){
+        this.width=size
+    }
+    setHeight(height:number){
+        this.height=height
+    }
+    getArea(){
+        return this.width**2
     }
 }
 
+const testRectSize=(rect:RectAngleShape)=>{
+    rect.setHeight(10)
+    rect.setWidth(5)
+    return rect.getArea()===50 ? 'correct':'failed'
 
-const res = new AreaCalculator([new Square(5),new Circle(0)])
+}
+const testSquareSize=(square:SquareShape)=>{
+    square.setWidth(10)
+    return square.getArea()===100 ? 'correct':'failed'
 
-console.log(res.calculateAllAreas());
-
-
-
-
+}
 
 
 

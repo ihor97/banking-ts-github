@@ -1,90 +1,81 @@
-// Open closed principle
-// класи відкриті для розширення але закриті для модифікацій
-var Shape;
-(function (Shape) {
-    Shape["square"] = "SQUARE";
-    Shape["circle"] = "CIRCLE";
-})(Shape || (Shape = {}));
+// Liskov Substitution principle
+// якщо P являється підтипом Т то ми можемо підставити тип P в замість типу T без всяких негативиних наслідків для програми
 var incorrect;
 (function (incorrect) {
-    class Square {
-        constructor(sideSize) {
-            this._type = Shape.square;
-            this._sideSize = sideSize;
+    class Rectangle {
+        constructor(width, height) {
+            this.width = width;
+            this.height = height;
         }
-        get sideSize() {
-            return this._sideSize;
+        setWidth(width) {
+            this.width = width;
         }
-        get type() {
-            return this._type;
+        setHeight(height) {
+            this.height = this.height;
         }
-    }
-    class Circle {
-        constructor(sideSize) {
-            this._type = Shape.circle;
-            this._radiusSize = sideSize;
-        }
-        get sideSize() {
-            return this._radiusSize;
-        }
-        get type() {
-            return this._type;
+        getArea() {
+            return this.height * this.width;
         }
     }
-    class Calculator {
-        constructor(shapes) {
-            this._shapes = [];
-            this._shapes = shapes;
+    class Square extends Rectangle {
+        constructor(size) {
+            super(size, size);
         }
-        calculateAllAreas() {
-            return this._shapes.reduce((acc, shape) => {
-                if (shape.type === Shape.circle) {
-                    acc += Math.PI * shape.sideSize ** 2;
-                }
-                // якщо ми захочемо додати якусь фігури треба буде давати ще один if
-                if (shape.type === Shape.square) {
-                    acc += shape.sideSize ** 2;
-                }
-                return acc;
-            }, 0);
+        setWidth(width) {
+            this.width = width;
+            this.height = width;
+        }
+        setHeight(height) {
+            this.height = this.height;
+            this.height = height;
+        }
+        getArea() {
+            return this.height * this.width;
         }
     }
-    const res = new Calculator([new Square(5), new Circle(0)]);
-    console.log(res.calculateAllAreas());
+    const testShapesSize = (rect) => {
+        // для квадрата цей тест зламається так як спочатку ставиться значення 10 а потім 5 
+        rect.setHeight(10);
+        rect.setWidth(5);
+        return rect.getArea() === 50 ? 'correct' : 'failed';
+    };
 })(incorrect || (incorrect = {}));
 var correct;
 (function (correct) {
-    class Shape {
-    }
-    class Circle extends Shape {
-        constructor(sideSize) {
-            super();
-            this._sideSize = sideSize;
+    class Square {
+        constructor(width) {
+            this.width = width;
+        }
+        setWidth(size) {
+            this.width = size;
         }
         getArea() {
-            return Math.PI * this._sideSize ** 2;
+            return this.width ** 2;
         }
     }
-    class Square extends Shape {
-        constructor(sideSize) {
-            super();
-            this._sideSize = sideSize;
+    class Rectangle {
+        constructor(width, height) {
+            this.width = width;
+            this.height = height;
+        }
+        setWidth(size) {
+            this.width = size;
+        }
+        setHeight(height) {
+            this.height = height;
         }
         getArea() {
-            return this._sideSize ** 2;
+            return this.width ** 2;
         }
     }
-    class AreaCalculator {
-        constructor(shapes) {
-            this.shapes = [];
-            this.shapes = shapes;
-        }
-        calculateAllAreas() {
-            this.sum = this.shapes.reduce((acc, e) => acc += e.getArea(), 0);
-            return this.sum;
-        }
-    }
-    const res = new AreaCalculator([new Square(5), new Circle(0)]);
-    console.log(res.calculateAllAreas());
+    const testRectSize = (rect) => {
+        rect.setHeight(10);
+        rect.setWidth(5);
+        return rect.getArea() === 50 ? 'correct' : 'failed';
+    };
+    const testSquareSize = (square) => {
+        square.setWidth(10);
+        return square.getArea() === 100 ? 'correct' : 'failed';
+    };
 })(correct || (correct = {}));
 //# sourceMappingURL=app.js.map
