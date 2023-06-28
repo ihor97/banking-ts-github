@@ -1,105 +1,63 @@
-// Liskov Substitution principle
-// якщо P являється підтипом Т то ми можемо підставити тип P в замість типу T без всяких негативиних наслідків для програми
-
+// interface segregation principle
+// прицип служить для того щоб могла бути постійність: клас батько і клас потомок можуть використовуватися однаковим чином без нарушення роботи програми
+// типу як single responsibility але в плані інтерфейсів (не треба пхати всі аідряд методи в інтерфейс )
 
 namespace incorrect{
-    class Rectangle{
-        constructor(public width:number,public height:number){
+interface Programmer{
+    writeCode():void
+    eatPizza(slicesCount:number):void
+}
 
-        }
-        setWidth(width:number){
-            this.width=width
-        }
-        setHeight(height:number){
-            this.height=this.height
-        }
-        getArea(){
-            return this.height*this.width
-        }
+class RegularProgrammer implements Programmer{
+    public writeCode(): void {
+        console.log('I write code');
     }
-    class Square extends Rectangle{
-        constructor(size:number){
-            super(size,size)
+    public eatPizza(slicesCount: number): void {
+        console.log( 'eating');
+        
+    }
+}
+    class FreeLancer implements Programmer {
+        public writeCode(): void {
+            console.log('I write code');
         }
-        setWidth(width:number){
-            this.width=width
-            this.height=width
-        }
-        setHeight(height:number){
-            this.height=this.height
-            this.height=height
+        public eatPizza(slicesCount: number): void {
+            throw new Error('не можу!')
             
         }
-        getArea(){
-            return this.height*this.width
-        }
     }
 
-    const testShapesSize=(rect:Rectangle)=>{
-        // для квадрата цей тест зламається так як спочатку ставиться значення 10 а потім 5 
-        rect.setHeight(10)
-        rect.setWidth(5)
-        return rect.getArea()===50 ? 'correct':'failed'
-    }
-    
+
+
+
 
 }
 
 
 namespace correct{
 
-interface Shape{
-    getArea:()=>number
+interface CodeProducer{
+    writeCode():void
 }
-interface WidthfulShape{
-    setWidth:(size:number)=>void
-}
-interface HeightfulShape{
-    setHeight:(height:number)=>void
+interface PizzaEater{
+    eatPizza(slicesCount: number):void
 }
 
-type SquareShape=Shape&WidthfulShape
-type RectAngleShape=Shape&WidthfulShape&HeightfulShape
-
-class Square implements SquareShape{
- 
-    constructor(public width:number){}
-    setWidth(size){
-        this.width=size
+class RegularProgrammer implements CodeProducer,PizzaEater{
+    public writeCode(): void {
+        console.log('I write code');
     }
-    getArea(){
-        return this.width**2
+    public eatPizza(slicesCount: number): void {
+        console.log( 'eating');
+        
     }
 }
-class Rectangle implements RectAngleShape{
- 
-    constructor(public width:number,public height:number){}
-    setWidth(size){
-        this.width=size
+    class FreeLancer implements CodeProducer {
+        public writeCode(): void {
+            console.log('I write code');
+        }
+        
     }
-    setHeight(height:number){
-        this.height=height
-    }
-    getArea(){
-        return this.width**2
-    }
-}
-
-const testRectSize=(rect:RectAngleShape)=>{
-    rect.setHeight(10)
-    rect.setWidth(5)
-    return rect.getArea()===50 ? 'correct':'failed'
-
-}
-const testSquareSize=(square:SquareShape)=>{
-    square.setWidth(10)
-    return square.getArea()===100 ? 'correct':'failed'
-
-}
-
-
-
-
 
 
 }

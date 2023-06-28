@@ -1,81 +1,39 @@
-// Liskov Substitution principle
-// якщо P являється підтипом Т то ми можемо підставити тип P в замість типу T без всяких негативиних наслідків для програми
+// interface segregation principle
+// прицип служить для того щоб могла бути постійність: клас батько і клас потомок можуть використовуватися однаковим чином без нарушення роботи програми
+// типу як single responsibility але в плані інтерфейсів (не треба пхати всі аідряд методи в інтерфейс )
 var incorrect;
 (function (incorrect) {
-    class Rectangle {
-        constructor(width, height) {
-            this.width = width;
-            this.height = height;
+    class RegularProgrammer {
+        writeCode() {
+            console.log('I write code');
         }
-        setWidth(width) {
-            this.width = width;
-        }
-        setHeight(height) {
-            this.height = this.height;
-        }
-        getArea() {
-            return this.height * this.width;
+        eatPizza(slicesCount) {
+            console.log('eating');
         }
     }
-    class Square extends Rectangle {
-        constructor(size) {
-            super(size, size);
+    class FreeLancer {
+        writeCode() {
+            console.log('I write code');
         }
-        setWidth(width) {
-            this.width = width;
-            this.height = width;
-        }
-        setHeight(height) {
-            this.height = this.height;
-            this.height = height;
-        }
-        getArea() {
-            return this.height * this.width;
+        eatPizza(slicesCount) {
+            throw new Error('не можу!');
         }
     }
-    const testShapesSize = (rect) => {
-        // для квадрата цей тест зламається так як спочатку ставиться значення 10 а потім 5 
-        rect.setHeight(10);
-        rect.setWidth(5);
-        return rect.getArea() === 50 ? 'correct' : 'failed';
-    };
 })(incorrect || (incorrect = {}));
 var correct;
 (function (correct) {
-    class Square {
-        constructor(width) {
-            this.width = width;
+    class RegularProgrammer {
+        writeCode() {
+            console.log('I write code');
         }
-        setWidth(size) {
-            this.width = size;
-        }
-        getArea() {
-            return this.width ** 2;
+        eatPizza(slicesCount) {
+            console.log('eating');
         }
     }
-    class Rectangle {
-        constructor(width, height) {
-            this.width = width;
-            this.height = height;
-        }
-        setWidth(size) {
-            this.width = size;
-        }
-        setHeight(height) {
-            this.height = height;
-        }
-        getArea() {
-            return this.width ** 2;
+    class FreeLancer {
+        writeCode() {
+            console.log('I write code');
         }
     }
-    const testRectSize = (rect) => {
-        rect.setHeight(10);
-        rect.setWidth(5);
-        return rect.getArea() === 50 ? 'correct' : 'failed';
-    };
-    const testSquareSize = (square) => {
-        square.setWidth(10);
-        return square.getArea() === 100 ? 'correct' : 'failed';
-    };
 })(correct || (correct = {}));
 //# sourceMappingURL=app.js.map
