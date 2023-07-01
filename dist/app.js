@@ -1,11 +1,10 @@
 "use strict";
-// BehaviorSubject
+// fromEvent є одним із функціональних операторів в бібліотеці RxJS. 
+// Цей оператор використовується для створення Observable, який слідкує за подіями, 
+// що виникають на елементі DOM або іншому подіємному джерелі.
 Object.defineProperty(exports, "__esModule", { value: true });
 const rxjs_1 = require("rxjs");
-// він получає в себе начальне значення яке ми можемо отримати навіть без підписки на нього 
-// з допомогою getvalue()
-const bSubject = new rxjs_1.BehaviorSubject(2);
-console.log(bSubject.getValue());
-bSubject.next(3);
-console.log(bSubject.getValue());
+(0, rxjs_1.fromEvent)(document, 'mousemove').pipe().subscribe(v => {
+    console.log(v);
+});
 //# sourceMappingURL=app.js.map

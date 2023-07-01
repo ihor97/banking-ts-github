@@ -1,11 +1,14 @@
-// BehaviorSubject
-
-import { BehaviorSubject } from "rxjs";
-// він получає в себе начальне значення яке ми можемо отримати навіть без підписки на нього 
-// з допомогою getvalue()
-const bSubject=new BehaviorSubject<number>(2)
-console.log(bSubject.getValue());
+// fromEvent є одним із функціональних операторів в бібліотеці RxJS. 
+// Цей оператор використовується для створення Observable, який слідкує за подіями, 
+// що виникають на елементі DOM або іншому подіємному джерелі.
 
 
-bSubject.next(3)
-console.log(bSubject.getValue());
+import { BehaviorSubject, fromEvent } from "rxjs";
+fromEvent(document,'mousemove').pipe(
+
+).subscribe(
+    v=>{
+        console.log(v);
+        
+    }
+)
