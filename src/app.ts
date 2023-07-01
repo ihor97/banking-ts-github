@@ -1,26 +1,13 @@
-// потік це є деякі івенти упорядочені в часі
-// в ангуларі потоки це Http запроси, router events, AbstractControl.valueChanges, ActivatedRoute.params, EventEmitter
+import { Observable } from "rxjs";
 
-import { Observable, Subscriber } from "rxjs";
-
-
-// Observable подібний на проміс але працює трохи по іншому
-// проміс має два стани - res i rej але не має next так як він закінчується а observable має next  
-const promise=new Promise((res,rej)=>{
-    setTimeout(() => {
-        res('resolve')
-    }, 1000);
+const stream$=new Observable<number>(observer=>{
+    observer.next(0)
+    setTimeout(() => {observer.next(1)}, 1000);
+    setTimeout(() => {observer.next(2)}, 2000);
+    setTimeout(() => {observer.next(3)}, 3000);
+    // після complete або error значення вже не емітяться
+    setTimeout(() => {observer.complete()}, 4000);
 })
 
-const observable:Observable<any>=new Observable(
-    (subscriber:Subscriber<any>):void=>{
-        setTimeout(() => {
-            
-            subscriber.next('hello')
-        });
-        subscriber.next(1)
-        subscriber.next(2)
-        subscriber.complete()
-        subscriber.error('some error')
-    }
-)
+stream$.subscribe(val=>{console.log(val);
+})
