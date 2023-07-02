@@ -1,19 +1,15 @@
-import { interval, take,skip, first, takeUntil, Subject } from "rxjs";
+import { interval, take,skip, first, takeUntil, of, Observable, catchError } from "rxjs";
 
- const event$=new Subject()
-interval(1000)
-// takeUntil треба для того зоб відписуватися по умові (як дестрой компоненти)
-// він приймає в себе якийсб іміт (як правило Subject) як тільки Subject видасть значення підписка знищиться
-.pipe(takeUntil(event$))
-.subscribe(console.log)
+const observable=new Observable(sub=>{
+    sub.next(1)
+    sub.error('error')
+})
 
-
-setTimeout(() => {
-    event$.next(1)
-}, 2000);
-
-
-
-
-
-
+observable.pipe(
+    // catchError дозволяє нам обробити помилку і продовжити виконання потоку
+    catchError(err=>{
+        console.log(err);
+        return of(1,2,3)
+    })
+).subscribe(console.log
+)
