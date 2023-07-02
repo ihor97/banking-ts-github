@@ -1,9 +1,9 @@
-import { interval, take,skip } from "rxjs";
+import { interval, take,skip, first } from "rxjs";
 
 
 interval(1000)
-// скпіаємо перших два значення
-.pipe(skip(2))
+// отримує перше значення і відписується
+.pipe(first())
 .subscribe(console.log)
 
 
