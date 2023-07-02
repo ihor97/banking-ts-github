@@ -1,14 +1,13 @@
-// fromEvent є одним із функціональних операторів в бібліотеці RxJS. 
-// Цей оператор використовується для створення Observable, який слідкує за подіями, 
-// що виникають на елементі DOM або іншому подіємному джерелі.
+import { map, of, tap } from 'rxjs';
 
-
-import { BehaviorSubject, fromEvent } from "rxjs";
-fromEvent(document,'mousemove').pipe(
-
-).subscribe(
-    v=>{
-        console.log(v);
-        
-    }
+// так як нема підписки нічого не виведеться
+of('world').pipe(
+    map(name => {
+        `Hello ${name}`
+    }),
+    tap(console.log)
 )
+// тут уже норм
+of('world')
+    .pipe(map(name => `Hello1 ${name}` ))
+    .subscribe(console.log)
