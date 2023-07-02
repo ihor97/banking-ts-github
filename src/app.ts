@@ -1,4 +1,4 @@
-import { interval, take,skip, tap, takeUntil, of, Observable, catchError, concat, timer } from "rxjs";
+import { interval, take,skip, tap, takeUntil, of, Observable, catchError, concat, timer, merge } from "rxjs";
 // комьінування обєднує декілька потоків в один
 const observable=new Observable(sub=>{
     sub.next(1)
@@ -7,9 +7,8 @@ const observable=new Observable(sub=>{
     sub.complete()
     
 })
-// конкат склуює декілька потоків в одни
-// щоб concat перейшов до наступного потоку треба щоб попередній закомплітився
-concat(
+// merge не чекає на complete
+merge(
     observable,
     timer(1000),
     timer(2000),

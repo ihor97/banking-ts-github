@@ -8,7 +8,6 @@ const observable = new rxjs_1.Observable(sub => {
     sub.next(6);
     sub.complete();
 });
-// конкат склуює декілька потоків в одни
-// щоб concat перейшов до наступного потоку треба щоб попередній закомплітився
-(0, rxjs_1.concat)(observable, (0, rxjs_1.timer)(1000), (0, rxjs_1.timer)(2000), (0, rxjs_1.of)(1, 2, 3)).subscribe(val => console.log(val));
+// merge не чекає на complete
+(0, rxjs_1.merge)(observable, (0, rxjs_1.timer)(1000), (0, rxjs_1.timer)(2000), (0, rxjs_1.of)(1, 2, 3)).subscribe(val => console.log(val));
 //# sourceMappingURL=app.js.map
