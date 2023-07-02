@@ -1,12 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const rxjs_1 = require("rxjs");
-// так як нема підписки нічого не виведеться
-(0, rxjs_1.of)('world').pipe((0, rxjs_1.map)(name => {
-    `Hello ${name}`;
-}), (0, rxjs_1.tap)(console.log));
-// тут уже норм
-(0, rxjs_1.of)('world')
-    .pipe((0, rxjs_1.map)(name => `Hello1 ${name}`))
-    .subscribe(console.log);
+// нічого не виведе тому що потік комплітиться
+const obs = new rxjs_1.Observable(subscriber => {
+    setTimeout(() => {
+        subscriber.next(2);
+    }, 2000);
+    subscriber.complete();
+});
+obs.subscribe(console.log);
 //# sourceMappingURL=app.js.map

@@ -1,13 +1,13 @@
-import { map, of, tap } from 'rxjs';
+import { subscribe } from 'diagnostics_channel';
+import { Observable, map, of, tap } from 'rxjs';
 
-// так як нема підписки нічого не виведеться
-of('world').pipe(
-    map(name => {
-        `Hello ${name}`
-    }),
-    tap(console.log)
+// нічого не виведе тому що потік комплітиться
+const obs=new Observable(subscriber=>{
+    setTimeout(() => {
+        subscriber.next(2)
+    }, 2000);
+
+    subscriber.complete()
+})
+obs.subscribe(console.log
 )
-// тут уже норм
-of('world')
-    .pipe(map(name => `Hello1 ${name}` ))
-    .subscribe(console.log)
