@@ -1,16 +1,9 @@
-import { interval, take,skip, tap, takeUntil, of, Observable, catchError, concat, timer, merge } from "rxjs";
+import { interval, take,skip, forkJoin, takeUntil, of, Observable, catchError, concat, timer, merge, map, concatMap } from "rxjs";
 // комьінування обєднує декілька потоків в один
-const observable=new Observable(sub=>{
-    sub.next(1)
-    sub.next(4)
-    sub.next(6)
-    sub.complete()
+(interval(1000)).pipe(
+    // подібний до concat буде чекати поки закомплітиться значення і не буде брати нових
+    concatMap(val=>of(val*5))
+).subscribe(
+    val=>{console.log(val)}
     
-})
-// merge не чекає на complete
-merge(
-    observable,
-    timer(1000),
-    timer(2000),
-    of(1,2,3)
-).subscribe(val=>console.log(val))
+)
