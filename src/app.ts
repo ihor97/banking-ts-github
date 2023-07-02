@@ -1,9 +1,15 @@
-import { interval, take,skip, forkJoin, takeUntil, of, Observable, catchError, concat, timer, merge, map, concatMap, switchMap } from "rxjs";
-// комьінування обєднує декілька потоків в один
-(interval(1000)).pipe(
-    // противополжність до concatMap
-    switchMap(val=>of(val*5))
-).subscribe(
-    val=>{console.log(val)}
-    
-)
+import { interval, take, skip, forkJoin, takeUntil, of, Observable, catchError, concat, timer, merge, map, concatMap, switchMap, share } from "rxjs";
+
+
+const warm$ = interval(1000)
+// робимо так щоб ми слухали дані з одного потоку
+    .pipe(share())
+warm$.subscribe()
+setTimeout(() => {
+    warm$.subscribe(
+        (val) => {
+            // тут уже деякі дані будуть пропусатися
+            console.log(val);
+        }
+    )
+}, 3000);
