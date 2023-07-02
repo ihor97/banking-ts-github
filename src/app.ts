@@ -1,10 +1,10 @@
-import { interval, take, skip, forkJoin, takeUntil, of, Observable, catchError, concat, timer, merge, map, concatMap, switchMap, share } from "rxjs";
+import { interval, take, skip, forkJoin, takeUntil, of, Observable, catchError, concat, timer, merge, map, concatMap, switchMap, share, publish } from "rxjs";
 
-
-const warm$ = interval(1000)
-// робимо так щоб ми слухали дані з одного потоку
-    .pipe(share())
-warm$.subscribe()
+// аналог  share
+const warm$ =publish() (interval(1000));
+// якщо ми юзаємо publish треба запустити потік
+warm$.connect()
+warm$.subscribe(console.log)
 setTimeout(() => {
     warm$.subscribe(
         (val) => {
