@@ -1,9 +1,9 @@
-import { interval, take } from "rxjs";
+import { interval, take,skip } from "rxjs";
 
 
 interval(1000)
-// автоматична відписка при отриманні двох значень 
-.pipe(take(2))
+// скпіаємо перших два значення
+.pipe(skip(2))
 .subscribe(console.log)
 
 
