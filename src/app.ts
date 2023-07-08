@@ -1,26 +1,19 @@
-// безпечний виклик метода 
-// для того щоб могли без помилок викликати метод
-function decoratorMethod(target:Object,propKey:string,descriptor:TypedPropertyDescriptor<any>) {
-    let origin=descriptor.value
-    descriptor.value=function() {
-        try{
-            origin.apply(this,arguments)
-        }catch(ex){
-            console.log(ex);
-            
-        }
+// фабрика декораторів
+
+function decoratorMethod(param:string) {
+    return (target:Object,method:string,descriptor:TypedPropertyDescriptor<any>)=>{
+        console.log(`декоратор з ${param} викликаний для метода ${method} екземпляра класа ${target.constructor.name}`);
+        
     }
 }
 
 class Test{
     public test:number=123
-    @decoratorMethod
+    @decoratorMethod('кастомний параметр')
     public exec1(){
-        // тут ми моделуюємо помилку
-        let h 
-        h.start()
+        console.log('основний метод');
+        
     }
 }
-
 let t =new Test()
 t.exec1()
