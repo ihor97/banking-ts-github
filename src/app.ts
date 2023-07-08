@@ -1,18 +1,26 @@
-function decoratorName(additional:any) {
-    return <T extends {new (...args:any[]):{}}>(Constructor:T)=>{
-        return class extends Constructor{
-            constructor(...args:any[]){
-                super(...args)
-                this.kek='dwdwedw'
-                console.log(additional);
-                
-            }
+// безпечний виклик метода 
+// для того щоб могли без помилок викликати метод
+function decoratorMethod(target:Object,propKey:string,descriptor:TypedPropertyDescriptor<any>) {
+    let origin=descriptor.value
+    descriptor.value=function() {
+        try{
+            origin.apply(this,arguments)
+        }catch(ex){
+            console.log(ex);
+            
         }
     }
 }
-@decoratorName('f')
-class P{
-    public kek='ssss'
+
+class Test{
+    public test:number=123
+    @decoratorMethod
+    public exec1(){
+        // тут ми моделуюємо помилку
+        let h 
+        h.start()
+    }
 }
-const p=new P()
-console.log(p);
+
+let t =new Test()
+t.exec1()
