@@ -1,24 +1,18 @@
-// заборона на зміну властивості
-function decoratorMethod(target:Object,propKey:string,descriptor:TypedPropertyDescriptor<any>) {
-   descriptor.writable=false
-}
-class Test{
-    public test:number=123
-
-    @decoratorMethod
-    public exec1 (){
-        console.log('normal work of func');
-        
-    }
-    public exec2(){
-
+function decoratorName(additional:any) {
+    return <T extends {new (...args:any[]):{}}>(Constructor:T)=>{
+        return class extends Constructor{
+            constructor(...args:any[]){
+                super(...args)
+                this.kek='dwdwedw'
+                console.log(additional);
+                
+            }
+        }
     }
 }
-
-let t =new Test()
-t.exec1()
-
-// не спрацює
-t.exec1=()=>{console.log(1);
+@decoratorName('f')
+class P{
+    public kek='ssss'
 }
-t.exec1()
+const p=new P()
+console.log(p);
