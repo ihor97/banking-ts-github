@@ -25,10 +25,12 @@ function clientCode(comp) {
     console.log(`Result:${comp.operation()}`);
 }
 const simple = new ConcreteComponent();
+console.log(simple);
 clientCode(simple);
 // тут ми закидуючи аргументом в цей клас викликаємо 
 const decor1 = new ConcreteDecoratorA(simple);
 clientCode(decor1);
+console.log(decor1);
 // можна обгортати декоратори 
 const decorator2 = new ConcreteDecoratorB(decor1);
 clientCode(decorator2);

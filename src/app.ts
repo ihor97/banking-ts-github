@@ -1,3 +1,4 @@
+// декоратор потрібен для того щоб задекорувати роботу оригінального класу
 interface Component{
     operation():string
 }
@@ -35,11 +36,14 @@ function clientCode(comp:Component) {
 }
 
 const simple=new ConcreteComponent()
+console.log(simple);
+
 clientCode(simple)
 
 // тут ми закидуючи аргументом в цей клас викликаємо 
 const decor1=new ConcreteDecoratorA(simple)
 clientCode(decor1)
+console.log(decor1);
 
 // можна обгортати декоратори 
 const decorator2=new ConcreteDecoratorB(decor1)
