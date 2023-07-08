@@ -4,27 +4,27 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
-// переоприділення метода в класі
-// для того щоб ми могли не переписувати код 
-function decoratorMethod(target, method, descriptor) {
-    descriptor.value = function () {
-        console.log('новий метод');
+// обгортаємо метод так щоб він виводив стрічку
+// можемо переоприділити параметри ті що вертає метод 
+function replace(target, method, descriptor) {
+    let originalMethod = descriptor.value;
+    descriptor.value = function (...args) {
+        let returnValue = originalMethod.apply(this, args);
+        return `${JSON.stringify(args)}=>${returnValue}`;
     };
-    return descriptor;
 }
-class Test {
-    constructor() {
-        this.test = 123;
+class Calculator {
+    constructor(n) {
+        this._prop1 = n;
     }
-    exec1() {
-        console.log('основний метод');
-        let h;
-        h.start();
+    add(x, y) {
+        return this._prop1 + x + y;
     }
 }
 __decorate([
-    decoratorMethod
-], Test.prototype, "exec1", null);
-let t = new Test();
-t.exec1();
+    replace
+], Calculator.prototype, "add", null);
+let calc = new Calculator(123);
+let z = calc.add(1, 2);
+console.log(z);
 //# sourceMappingURL=app.js.map
