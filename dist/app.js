@@ -5,25 +5,31 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 function decoratorProperty(target, propKey) {
+    let i = 0;
+    //  приклад з гет і сет
     let descriptor = {
-        writable: false,
-        value: 'значення встановлене в декораторі'
+        get: function () {
+            i++;
+            return i;
+        },
+        set: function (val) {
+            i = val;
+        }
     };
     return descriptor;
 }
 class Example {
     constructor() {
-        // this.a='переіначене значення'
+        console.log(this._a);
+        console.log(this._a);
+        console.log(this._a);
+        console.log(this._a);
+        this._a = 10;
+        console.log(this._a);
     }
 }
 __decorate([
     decoratorProperty
-], Example.prototype, "a", void 0);
-// будемо отримувати одне і те саме поле
+], Example.prototype, "_a", void 0);
 let e = new Example();
-console.log(e.a);
-let e1 = new Example();
-console.log(e1.a);
-let e2 = new Example();
-console.log(e2.a);
 //# sourceMappingURL=app.js.map

@@ -1,26 +1,34 @@
+
 function decoratorProperty(target:Object,propKey:string|symbol):any {
-    let descriptor:PropertyDescriptor={
-        writable:false,
-        value:'значення встановлене в декораторі'
-    }    
+let i=0
+//  приклад з гет і сет
+let descriptor={
+    get:function () {
+        i++
+        return i
+    },
+    set:function(val:number){
+        i=val
+    }
+}   
     return descriptor
 }
 
-class Example{
-    // таким чином ми зробили статичне readonly поле
+class Example {
+    // робимо з поля властивість аксесор
     @decoratorProperty
-    public a:string
-    constructor(){
-        // this.a='переіначене значення'
+    private _a:number
+    constructor() {
+        console.log(this._a);
+        console.log(this._a);
+        console.log(this._a);
+        console.log(this._a);
+        this._a=10
+        console.log(this._a);
+        
         
     }
 }
-// будемо отримувати одне і те саме поле
-let e =new Example()
-console.log(e.a);
 
-let e1 =new Example()
-console.log(e1.a);
+let e=new Example()
 
-let e2 =new Example()
-console.log(e2.a);
