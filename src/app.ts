@@ -1,50 +1,62 @@
-// є чотири типи деораторів
-// класів 
-// методів
-// параметрів методів
-// полів/ властивостей  класу
+// реалізація менеджера запущених процесів
 
-function  decoratorClass<TFunction extends Function>(target:TFunction ):TFunction {
-    let newConstructor:Function=function(){
-        console.log('exec newConstructor');
+class TaskRunner{
+    private static _collection:TaskWorker[]=[]
+    public static register(task:TaskWorker){
+        if(!this._collection.filter(g=>g.taskName===task.taskName).length){
+            this._collection.push(task)
+        return true
+
+        }
+        return false
     }
-    return <TFunction>newConstructor
-}
-
-// декоратор ініціалізуєтсья тоді коли ініціалізуєтсья клас
-
-
-
-function closeObject(constructor:Function) {
-    console.log('obj sealed');
-    Object.seal(constructor)
-    // 
-    Object.seal(constructor.prototype)
-}
-
-// можна застосовувати декілька декораторів
-function mainThread(constructor:Function) {
-    console.log('створений головний потік');
-    constructor.prototype.isMainThread=true
-    
-}
-
-// декоратори виконуються знизу вверх
-// декоратор виконується тоді коли ініціалізується клас
-// ми змінюємо поведінку класу при тому що сам його код не міняли
-@closeObject
-@mainThread
-class TaskWorker{
-    public taskName:string
-    constructor(taskName:string){
-        this.taskName=taskName
+    public static getAll():Array<TaskWorker>{
+        return this._collection
     }
-    public exec():void{
-        console.log(this.taskName);
+}
+// кожен раз коли створюється екземпляр класу відпрацьовує декоратор
+// в момент коли створюється задачка ми її реєструємо в класі TaskRunner
+function registerTask<TFunction extends Function>(target:TFunction):TFunction {
+    let newController:Function=function () {
+        console.log('створений новий процес');
+        let index=0
+        while(true){
+            index++
+            this.taskName=`задача №${index}` 
+            if(TaskRunner.register(this)){
+                break
+            }
+        }
         
     }
+    console.log(newController);
+    
+    // по суті ви вертаємо конструктор який виконується апи ініціадізації класу
+    return <TFunction>newController
 }
+// немає силок між класом TaskWorker та TaskRunner але за допомогою декоратора ми реєструємо нових таскворкерів в середині класу TaskRunner
+@registerTask
+class TaskWorker{
+    public taskName:string=''
+    public running:boolean=false
+    constructor(){}
 
-// прототип обєкта не можна розширити
-let task=new TaskWorker('eee')
-console.log(task);
+    public start():void{
+        this.running=true
+        console.log(`Запущена ${this.taskName}`);
+    }
+    public pause(){
+        this.running=false
+        console.log(`Приоставлена ${this.taskName}`);
+        
+    }
+
+
+}
+let task1=new TaskWorker()
+let task2=new TaskWorker()
+let task3=new TaskWorker()
+let task4=new TaskWorker()
+let task5=new TaskWorker()
+console.log(TaskRunner.getAll());
+task1.pause()
