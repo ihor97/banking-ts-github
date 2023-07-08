@@ -1,17 +1,20 @@
-// фабрика декораторів
-
-function decoratorMethod(param:string) {
-    return (target:Object,method:string,descriptor:TypedPropertyDescriptor<any>)=>{
-        console.log(`декоратор з ${param} викликаний для метода ${method} екземпляра класа ${target.constructor.name}`);
-        
-    }
+// переоприділення метода в класі
+// для того щоб ми могли не переписувати код 
+function decoratorMethod(target:Object,method:string,descriptor:TypedPropertyDescriptor<any>):TypedPropertyDescriptor<any> {
+ descriptor.value=function () {
+    console.log('новий метод');
+    
+ }
+ return descriptor
 }
 
 class Test{
     public test:number=123
-    @decoratorMethod('кастомний параметр')
+    @decoratorMethod
     public exec1(){
         console.log('основний метод');
+        let h
+        h.start()
         
     }
 }
