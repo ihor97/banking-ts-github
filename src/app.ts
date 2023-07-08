@@ -1,25 +1,22 @@
-// обгортаємо метод так щоб він виводив стрічку
-// можемо переоприділити параметри ті що вертає метод 
-function replace(target:Object,method:string,descriptor:TypedPropertyDescriptor<any>) {
-    let originalMethod=descriptor.value
-    descriptor.value=function (...args) {
-        let returnValue=originalMethod.apply(this,args)
-        return `${JSON.stringify(args)}=>${returnValue}`
- }
+// декоратор вхідних параметрів метода
+// parameterIndex - номер передаваємого параметра
+// function  parameterDecorator(target:Object,propertykey:string,parameterIndex:number) {
+    
+// }
+
+
+function decoratorParametr(target:Object,method:string,index:number):void {
+    console.log(`method = ${method}`);
+    console.log(`index = ${index}`);
 }
 
-class Calculator{
-    private _prop1:number
-    constructor(n:number){
-        this._prop1=n
-    }
-
-    @replace
-    public add(x:number,y:number):number{
-        return this._prop1+x+y
-    }
+class Example{
+    private _a:string
+    public exec(@decoratorParametr a :string,
+                @decoratorParametr b:string,c:string){
+                    this._a=a
+                }
 }
 
-let calc=new Calculator(123)
-let z=calc.add(1,2)
-console.log(z);
+let tom=new Example()
+tom.exec('param1','param2','param3')//там де parameterIndex виведе 0 та 1
