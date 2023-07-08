@@ -1,51 +1,50 @@
-// декоратор потрібен для того щоб задекорувати роботу оригінального класу
-interface Component{
-    operation():string
+// є чотири типи деораторів
+// класів 
+// методів
+// параметрів методів
+// полів/ властивостей  класу
+
+function  decoratorClass<TFunction extends Function>(target:TFunction ):TFunction {
+    let newConstructor:Function=function(){
+        console.log('exec newConstructor');
+    }
+    return <TFunction>newConstructor
 }
 
-class ConcreteComponent implements Component{
-    public operation(): string {
-        return 'ConcreteComponent'
-    }
+// декоратор ініціалізуєтсья тоді коли ініціалізуєтсья клас
+
+
+
+function closeObject(constructor:Function) {
+    console.log('obj sealed');
+    Object.seal(constructor)
+    // 
+    Object.seal(constructor.prototype)
 }
 
-class Decorator implements Component{
-    protected component:Component
-    constructor(component: Component){
-        this.component=component
-    }
-    public operation(): string {
-        return this.component.operation()
-    }
-}
-
-class ConcreteDecoratorA extends Decorator{
-    public operation(): string {
-        return `ConcreteDecoratorA(${super.operation()})`
-    }
-}
-class ConcreteDecoratorB extends Decorator{
-    public operation(): string {
-        return `ConcreteDecoratorB(${super.operation()})`
-    }
-}
-
-function clientCode(comp:Component) {
-    console.log(`Result:${comp.operation()}`);
+// можна застосовувати декілька декораторів
+function mainThread(constructor:Function) {
+    console.log('створений головний потік');
+    constructor.prototype.isMainThread=true
     
 }
 
-const simple=new ConcreteComponent()
-console.log(simple);
+// декоратори виконуються знизу вверх
+// декоратор виконується тоді коли ініціалізується клас
+// ми змінюємо поведінку класу при тому що сам його код не міняли
+@closeObject
+@mainThread
+class TaskWorker{
+    public taskName:string
+    constructor(taskName:string){
+        this.taskName=taskName
+    }
+    public exec():void{
+        console.log(this.taskName);
+        
+    }
+}
 
-clientCode(simple)
-
-// тут ми закидуючи аргументом в цей клас викликаємо 
-const decor1=new ConcreteDecoratorA(simple)
-clientCode(decor1)
-console.log(decor1);
-
-// можна обгортати декоратори 
-const decorator2=new ConcreteDecoratorB(decor1)
-
-clientCode(decorator2)
+// прототип обєкта не можна розширити
+let task=new TaskWorker('eee')
+console.log(task);
