@@ -1,7 +1,20 @@
-// коли запроси виконуються вони попадають в івент луп і викликати їх звідти можна за допомоги промісів 
-// червоні помилки ті які опрацював браузер
-// Таким чином, значення 1 виводиться двічі, оскільки ви викликаєте два різних .then() блоки на тому самому Promise p.
-let p = new Promise((res, rej) => res(1));
-// я так думаю тут уже розрезолвений обєкт і можна скільки хочеш дьоргати 1
-p.then(r => console.log(r));
-p.then(r => console.log(r));
+let p = new Promise((res, rej) => {
+    console.log('start');
+    setTimeout(() => {
+        console.log('end end end');
+    });
+    // тут вже буде 1 в кінці
+    setTimeout(() => {
+        res(1);
+    });
+    console.log('end');
+});
+p.then(res => {
+    console.log(res);
+});
+p.then(res => {
+    console.log(res);
+});
+p.then(res => {
+    console.log(res);
+});
