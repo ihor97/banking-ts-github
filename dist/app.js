@@ -1,19 +1,20 @@
-// кастомний простір імен 
-// типу як в класі є поля так і в namespace є класи
-// дозволяє розграничити області 
-// також можуть бути namespace всередині namespace
-var CustomNameSpace;
-(function (CustomNameSpace) {
-    class Example {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.Process = exports.Priority = void 0;
+//  якщо ми ставимо тут  експорт цей файл тоді розцінюється як модуль 
+// і в другому файлі ми вде так просто не отримаємо доступ до єнума
+var Priority;
+(function (Priority) {
+    Priority[Priority["High"] = 1] = "High";
+    Priority[Priority["Low"] = 2] = "Low";
+})(Priority || (exports.Priority = Priority = {}));
+let index = 0;
+class Process {
+    constructor(n) {
+        this.name = n;
+        this.index = index;
+        this.prority = Priority.Low;
     }
-    CustomNameSpace.Example = Example;
-    function name(params) {
-    }
-    CustomNameSpace.name = name;
-})(CustomNameSpace || (CustomNameSpace = {}));
-class Example {
 }
-// так можна зробити так щоб не писати багато разів CustomNameSpace
-var b = CustomNameSpace;
-let g = new CustomNameSpace.Example();
+exports.Process = Process;
 //# sourceMappingURL=app.js.map
