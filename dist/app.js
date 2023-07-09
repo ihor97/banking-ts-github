@@ -1,13 +1,6 @@
-// типи ф-й
-let p = function (a, b, c) {
-    console.log(a, b, c);
-};
-function previewCalculate(start, print) {
-    start.forEach(a => {
-        start.forEach(b => {
-            print(a, b, a + b);
-        });
-    });
+function add(a, b) {
+    return a + b;
 }
-previewCalculate([1, 2, 3, 4, 5], p);
+let res = add(1, 2);
+let res2 = add('2', '3');
 //# sourceMappingURL=app.js.map
