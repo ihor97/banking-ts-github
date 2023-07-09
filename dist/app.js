@@ -58,6 +58,7 @@ function inject(target, propKey) {
             return printService;
         }
     };
+    Object.defineProperty(target, propKey, descriptor);
     return descriptor;
 }
 class Example {
@@ -71,4 +72,3 @@ __decorate([
 ], Example.prototype, "_printService", void 0);
 let e = new Example();
 e.print('first message');
-//# sourceMappingURL=app.js.map

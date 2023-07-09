@@ -58,6 +58,7 @@ function inject(target:Object,propKey:string):any {
           return  printService
         }
     }
+    Object.defineProperty(target,propKey,descriptor)
     return descriptor
 }
 class Example {
@@ -72,6 +73,6 @@ class Example {
     }
 
 }
-
+ 
 let e =new Example()
 e.print('first message')
