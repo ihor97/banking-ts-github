@@ -21,3 +21,5 @@ let index=0
     }
 }
 export {Priority,Process}
+
+console.log(3);

@@ -15,3 +15,4 @@ class Process {
     }
 }
 exports.Process = Process;
+console.log(3);

@@ -1,4 +1,3 @@
-"use strict";
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     var desc = Object.getOwnPropertyDescriptor(m, k);
@@ -13,8 +12,11 @@ var __createBinding = (this && this.__createBinding) || (Object.create ? (functi
 var __exportStar = (this && this.__exportStar) || function(m, exports) {
     for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
 };
-Object.defineProperty(exports, "__esModule", { value: true });
-// барель файл
-__exportStar(require("./child1"), exports);
-__exportStar(require("./child2"), exports);
-__exportStar(require("./child3"), exports);
+define(["require", "exports", "./child1", "./child2", "./child3"], function (require, exports, child1_1, child2_1, child3_1) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    // барель файл
+    __exportStar(child1_1, exports);
+    __exportStar(child2_1, exports);
+    __exportStar(child3_1, exports);
+});
