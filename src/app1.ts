@@ -1,9 +1,20 @@
-// так вже ми мусимо імпортити
-// так робиться аліас
-import * as app2 from "./app"
-class Process2{
-    public priority:app2.Priority
-    constructor(){
-        this.priority=app2.Priority.Low
+// обявляємо модуль глобально
+declare module "process"{
+enum Priority{
+    High=1,
+    Low=2
+}
+let index=0
+ class Process{
+    public name:string
+    public index:number
+    public prority:Priority
+    constructor(n:string){
+        this.name=n
+        this.index=index
+        this.prority=Priority.Low
     }
 }
+}
+
+// export {Priority,Process}
