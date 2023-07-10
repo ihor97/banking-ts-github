@@ -1,12 +1,27 @@
-// є дві черги перша - це кліки таймаути таймери і тд а друга суто проміси. 
-// І проміси мають пріорітет перед ними(тобто спочатку спустошуються проміси а потім та черга з таймаутами)
-// у цьому випадку браузер не поламається так як в нас все одно буде проміжки часу де ми можемо взаємодіяти з інтерфейсом
-function loop1() {
-    setTimeout(loop1);
+// функція для підгрузки скриптів
+function loadScript(src) {
+    return new Promise(function (res, rej) {
+        let script = document.createElement('script');
+        script.src = src;
+        // виконається в той момент коли скріпти загрузяться
+        script.onload = () => res(script);
+        script.onerror = () => rej(new Error(`скріпт по адресу ${src} не загружений`));
+        document.head.append(script);
+    });
 }
-// проміси хотя асинхронні теж але вони працюють там де макротаски(пріорітетний потік) і браузер впаде
-// тобто буде постійно Callbackqueue засмічуватися 
-// в минулому прикладі в нас був зазор часу коли колбек з webapi переходив callbackqueue
-function loop2() {
-    Promise.resolve().then(loop2);
-}
+loadScript('https://code.jquery.com/jquery-3.7.0.min.js')
+    .then(() => {
+    return loadScript('https://code.jquery.com/jquery-migrate-3.4.1.min.js');
+}, err => {
+    console.log(err);
+})
+    .then(() => {
+    return loadScript('https://code.jqueryom/jquery-3.7.0.min.js');
+}, err => {
+    console.log(err);
+})
+    .then(() => {
+    console.log('скріпти загружені');
+}, err => {
+    console.log(err);
+});
