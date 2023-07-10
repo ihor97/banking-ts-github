@@ -1,31 +1,22 @@
-// функція для підгрузки скриптів
-function loadScript(src):Promise<HTMLScriptElement> {
-    return new Promise<HTMLScriptElement>(function (res,rej) {
-        let script=document.createElement('script');
-        script.src=src
-        // виконається в той момент коли скріпти загрузяться
-        script.onload=()=>res(script)
-        script.onerror=()=>rej(new Error(`скріпт по адресу ${src} не загружений`))
-        document.head.append(script)
+
+
+// queueMicrotask() дає нам змогу засувати у виконання мікротасків якісь колбеки
+// async - синтаксичний цукор над роботою з промісом 
+async function func() {
+    console.log('зайшли в ф-ю');
+    let promise=new Promise((res,rej)=>{
+        setTimeout(() => {
+            res('виклнання проміса')
+        }, 2000);
     })
+console.log('резолвимо проміс');
+
+    let res=await promise
+    console.log(res);
+    console.log('завершення');
+    
+    
+    
 }
-loadScript('https://code.jquery.com/jquery-3.7.0.min.js')
-    .then(()=>{
-        return loadScript('https://code.jquery.com/jquery-migrate-3.4.1.min.js')
-    },err=>{
-        console.log(err);
-        
-    })
-    .then(()=>{
-        return loadScript('https://code.jqueryom/jquery-3.7.0.min.js')
-    },
-    err=>{
-        console.log(err);
-    }
-    )
-    .then(()=>{
-        console.log('скріпти загружені');
-    },err=>{
-        console.log(err);
-        
-    })
+
+func()

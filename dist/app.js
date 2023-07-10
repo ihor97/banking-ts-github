@@ -1,27 +1,26 @@
-// функція для підгрузки скриптів
-function loadScript(src) {
-    return new Promise(function (res, rej) {
-        let script = document.createElement('script');
-        script.src = src;
-        // виконається в той момент коли скріпти загрузяться
-        script.onload = () => res(script);
-        script.onerror = () => rej(new Error(`скріпт по адресу ${src} не загружений`));
-        document.head.append(script);
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+// queueMicrotask() дає нам змогу засувати у виконання мікротасків якісь колбеки
+// async - синтаксичний цукор над роботою з промісом 
+function func() {
+    return __awaiter(this, void 0, void 0, function* () {
+        console.log('зайшли в ф-ю');
+        let promise = new Promise((res, rej) => {
+            setTimeout(() => {
+                res('виклнання проміса');
+            }, 2000);
+        });
+        console.log('резолвимо проміс');
+        let res = yield promise;
+        console.log(res);
+        console.log('завершення');
     });
 }
-loadScript('https://code.jquery.com/jquery-3.7.0.min.js')
-    .then(() => {
-    return loadScript('https://code.jquery.com/jquery-migrate-3.4.1.min.js');
-}, err => {
-    console.log(err);
-})
-    .then(() => {
-    return loadScript('https://code.jqueryom/jquery-3.7.0.min.js');
-}, err => {
-    console.log(err);
-})
-    .then(() => {
-    console.log('скріпти загружені');
-}, err => {
-    console.log(err);
-});
+func();
